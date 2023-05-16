@@ -9,6 +9,8 @@ import Swal from 'sweetalert2';
 export class AuthService {
   userFirebase : any;
   toast;
+  claveActual = '';
+  emailActual = '';
 
   constructor(private auth:AngularFireAuth,private router: Router) {
     this.toast= Swal.mixin({
@@ -34,6 +36,8 @@ export class AuthService {
     return this.auth.signInWithEmailAndPassword(email,password)
       .then(
         e=>{
+          this.claveActual = password;
+          this.emailActual = email;          
           this.loginExitoso('Bienvenido nuevamente!');
           this.router.navigate(['/home']);
         }
