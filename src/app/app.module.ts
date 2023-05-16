@@ -9,6 +9,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire/compat';
+import { Flashlight } from '@awesome-cordova-plugins/flashlight/ngx';
+import { Vibration } from '@awesome-cordova-plugins/vibration/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +22,7 @@ import { AngularFireModule } from '@angular/fire/compat';
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase)
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },Flashlight,Vibration],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
