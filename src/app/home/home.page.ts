@@ -18,8 +18,6 @@ export class HomePage {
 
   alarmOnOff: boolean = false;
   showDialog: boolean = false;
-  //estado = '';
-  //clave: string = "";
 
    //Ingresos para flash
   primerIngreso: boolean = true;
@@ -27,10 +25,18 @@ export class HomePage {
  
   //ORIENTACION
   posicionActualCelular = 'actual';
-  posicionAnteriorCelular = 'anterior';
- 
-   //mostrarDialog: boolean = true;
+  posicionAnteriorCelular = 'anterior'; 
+  
   subscription: any;
+
+  //Sonidos
+  audioIzquierda = "../../assets/audios/eu.wav";
+  audioDerecha = "../../assets/audios/estanRobando.wav";
+  audioVertical = "../../assets/audios/baja-el-telefono.wav";
+  audioHorizontal = "../../assets/audios/soltalo.wav";
+  audioError = "../../assets/audios/sirena.mp3";
+  audio = new Audio();
+
   constructor(private auth : AuthService,private flashlight : Flashlight,private vibration : Vibration) {}
 
   onoff(){
@@ -57,25 +63,17 @@ export class HomePage {
       color: '#FFFFFF',
       heightAuto:false
     })
-    if (clave === this.auth.claveActual) {//Comparacion de usuario registrado con la clave ingresada recientemente
-      console.log("ENTRE");
-      
+    if (clave === this.auth.claveActual) {
       this.activado = false;
-      // this.audio.pause();
-      this.parar(); ///Paro la subscripcion al acceleration
+      this.audio.pause();
+      this.parar();
     }
-    else{
-      //this.estado = 'denegado';
+    else{      
       this.errorApagado();
-      // setTimeout(() => {
-      //   //this.estado = "";
-      // }, 1000);
-
     }
   }
 
   activarAlarma(){
-    //console.log("activar");
     this.subscription = DeviceMotion.watchAcceleration({ frequency: 300 }).subscribe((acceleration: DeviceMotionAccelerationData) => {
       this.accelerationX = Math.floor(acceleration.x);
       this.accelerationY = Math.floor(acceleration.y);
@@ -83,13 +81,11 @@ export class HomePage {
 
       if (acceleration.x > 5) {
         //Inclinacion Izquierda
-
         this.posicionActualCelular = 'izquierda';
         this.movimientoIzquierda();
       }
       else if (acceleration.x < -5) {
         //Inclinacion Derecha
-
         this.posicionActualCelular = 'derecha';
         this.movimientoDerecha();
       }
@@ -98,10 +94,10 @@ export class HomePage {
         this.posicionActualCelular = 'arriba';
 
         if ((this.posicionActualCelular != this.posicionAnteriorCelular)) {
-          // this.audio.src = this.audioVertical;
+          this.audio.src = this.audioVertical;
           this.posicionAnteriorCelular = 'arriba';
         }
-        // this.audio.play();
+        this.audio.play();
         this.movimientoVertical();
       }
 
@@ -120,9 +116,9 @@ export class HomePage {
     this.primerIngresoFlash = true;
     if (this.posicionActualCelular != this.posicionAnteriorCelular) {
       this.posicionAnteriorCelular = 'izquierda';
-      // this.audio.src = this.audioIzquierda;
+      this.audio.src = this.audioIzquierda;
     }
-    // this.audio.play();
+    this.audio.play();
   }
 
   movimientoDerecha() {
@@ -130,9 +126,9 @@ export class HomePage {
     this.primerIngresoFlash = true;
     if (this.posicionActualCelular != this.posicionAnteriorCelular) {
       this.posicionAnteriorCelular = 'derecha';
-      // this.audio.src = this.audioDerecha;
+      this.audio.src = this.audioDerecha;
     }
-    // this.audio.play();
+    this.audio.play();
   }
 
   movimientoVertical() {
@@ -149,9 +145,9 @@ export class HomePage {
   movimientoHorizontal() {
     if (this.posicionActualCelular != this.posicionAnteriorCelular) {
       this.posicionAnteriorCelular = 'plano';
-      // this.audio.src = this.audioHorizontal;
+      this.audio.src = this.audioHorizontal;
     }
-    // this.primerIngreso ? null : this.audio.play();
+    this.primerIngreso ? null : this.audio.play();
     this.primerIngreso ? null : this.vibration.vibrate(5000);
     this.primerIngreso = true;
     this.primerIngresoFlash = true;
@@ -160,8 +156,8 @@ export class HomePage {
   errorApagado() {
     //if (this.primerIngresoFlash) {
       //this.primerIngresoFlash ? this.flashlight.switchOn() : null;
-      // this.audio.src = this.audioError;
-      // this.audio.play();
+      this.audio.src = this.audioError;
+      this.audio.play();
       this.flashlight.switchOn()
       this.vibration.vibrate(5000);
       setTimeout(() => {
@@ -172,8 +168,7 @@ export class HomePage {
     //}
   }
 
-  parar() {
-    //this.mostrarDialog = true;
+  parar() {    
     this.primerIngreso = true;
     this.subscription.unsubscribe();
   }
