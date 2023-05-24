@@ -21,10 +21,10 @@
         <ion-col size="7" class="ion-text-center ion-align-items-center">
           
           <ion-item>
-            <ion-input label="Email" label-placement="floating" placeholder="Email" type="email" formControlName="email"></ion-input>
+            <ion-input label="Correo" label-placement="floating" placeholder="Correo" type="email" formControlName="email"></ion-input>
           </ion-item>
 
-          <ion-text *ngIf="formRegistro.controls['email'].errors?.['required'] && formRegistro.controls['email'].touched" color="danger">Debe ingresar un email</ion-text>
+          <ion-text *ngIf="formRegistro.controls['email'].errors?.['required'] && formRegistro.controls['email'].touched" color="danger">Debe ingresar un correo</ion-text>
 
           <ion-item class="ion-margin-top">
             <ion-input label="Contraseña" label-placement="floating" placeholder="Contraseña" type="password" formControlName="pass"></ion-input>
