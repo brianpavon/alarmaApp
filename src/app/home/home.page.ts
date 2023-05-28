@@ -30,7 +30,7 @@ export class HomePage {
   subscription: any;
 
   //Sonidos
-  audioIzquierda = "../../assets/audios/eu.wav";
+  audioIzquierda = "../../assets/audios/ey.wav";
   audioDerecha = "../../assets/audios/estanRobando.wav";
   audioVertical = "../../assets/audios/baja-el-telefono.wav";
   audioHorizontal = "../../assets/audios/soltalo.wav";
